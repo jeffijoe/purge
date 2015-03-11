@@ -5,7 +5,7 @@ with long path names.
 
 ## Get it
 
-Download [purge.exe](/jeffijoe/purge/dist) from the dist folder.
+Download [purge.exe](/dist) from the dist folder.
 
 ## Usage
 
