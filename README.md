@@ -21,7 +21,7 @@ purge <folder>
 
 Because deleting `node_modules` manually is a pain.
 
-## Wishlish
+## Wishlist
 
 * Explorer Shell integration. Probably not happening because I don't C++.
 
