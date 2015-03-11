@@ -7,6 +7,8 @@ with long path names.
 
 Download [purge.exe](/dist) from the dist folder.
 
+Or, build it yourself.
+
 ## Usage
 
 Pretty simple. It takes one argument; the folder path.
@@ -14,8 +16,6 @@ Pretty simple. It takes one argument; the folder path.
 ```
 purge <folder>
 ```
-
-Or, build it yourself.
 
 ## Why?
 
