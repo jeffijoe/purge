@@ -43,8 +43,29 @@ namespace Jeffijoe.Purge.CLI
                 return;
             }
             
-            var purger = new Purger();
-            purger.Purge(path);
+            Purge(path);
+        }
+
+        /// <summary>
+        /// Purges the specified path.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        private static void Purge(string path)
+        {
+            try
+            {
+                var purger = new Purger();
+                purger.Purge(path);    
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw;
+#elif !DEBUG
+                Console.WriteLine(ex.Message);
+#endif
+            }
+            
         }
 
         #endregion
