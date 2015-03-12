@@ -11,11 +11,12 @@ Or, build it yourself.
 
 ## Usage
 
-Pretty simple. It takes one argument; the folder path.
+Pretty simple. It takes one argument; the path to the folder or file you want to delete.
+```
+purge <path>
+```
 
-```
-purge <folder>
-```
+Path can be absolute, or relative to the current working directory.
 
 ## Why?
 
