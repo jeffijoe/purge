@@ -6,15 +6,34 @@
 // Copyright (C) Jeff Hansen 2015. All rights reserved.
 
 using System;
-using System.IO;
 
 namespace Jeffijoe.Purge.CLI
 {
     /// <summary>
-    /// The program.
+    ///     The program.
     /// </summary>
     internal class Program
     {
+        #region Constants
+
+        /// <summary>
+        ///     The welcome message.
+        /// </summary>
+        private const string Welcome = @"
+purge, slayer of files and folders with long paths
+- by Jeff Hansen
+
+Usage:
+  
+  purge <path>
+  
+Path can be a file or a folder, 
+and can be relative to the current
+working dir, or an absolute path
+";
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -27,18 +46,20 @@ namespace Jeffijoe.Purge.CLI
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("Usage: purge <folder>");
+                Console.WriteLine(Welcome);
                 return;
             }
 
-            string path = args[0];            
+            string path = args[0];
             Purge(path);
         }
 
         /// <summary>
         /// Purges the specified path.
         /// </summary>
-        /// <param name="path">The path.</param>
+        /// <param name="path">
+        /// The path.
+        /// </param>
         private static void Purge(string path)
         {
 #if !DEBUG
@@ -46,14 +67,14 @@ namespace Jeffijoe.Purge.CLI
             {
 #endif
                 var purger = new Purger();
-                purger.Purge(path);    
+                purger.Purge(path);
 #if !DEBUG
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-
             }
+
 #endif
         }
 
