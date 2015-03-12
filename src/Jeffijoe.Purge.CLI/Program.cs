@@ -31,18 +31,7 @@ namespace Jeffijoe.Purge.CLI
                 return;
             }
 
-            string path = args[0];
-            if (!Path.IsPathRooted(path))
-            {
-                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, args[0]);
-            }
-
-            if (Directory.Exists(path) == false)
-            {
-                Console.WriteLine("Directory \"{0}\" not found.", path);
-                return;
-            }
-            
+            string path = args[0];            
             Purge(path);
         }
 
@@ -52,20 +41,20 @@ namespace Jeffijoe.Purge.CLI
         /// <param name="path">The path.</param>
         private static void Purge(string path)
         {
+#if !DEBUG
             try
             {
+#endif
                 var purger = new Purger();
                 purger.Purge(path);    
+#if !DEBUG
             }
             catch (Exception ex)
             {
-#if DEBUG
-                throw;
-#elif !DEBUG
                 Console.WriteLine(ex.Message);
-#endif
+
             }
-            
+#endif
         }
 
         #endregion

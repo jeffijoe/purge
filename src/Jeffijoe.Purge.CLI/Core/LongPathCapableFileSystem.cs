@@ -13,6 +13,20 @@ namespace Jeffijoe.Purge.CLI
         #region Public Methods and Operators
 
         /// <summary>
+        /// Gets the current working directory.
+        /// </summary>
+        /// <value>
+        /// The current working directory.
+        /// </value>
+        public string CurrentWorkingDirectory
+        {
+            get
+            {
+                return Directory.GetCurrentDirectory();
+            }
+        }
+
+        /// <summary>
         /// The clear read only.
         /// </summary>
         /// <param name="filePath">
@@ -59,6 +73,18 @@ namespace Jeffijoe.Purge.CLI
         }
 
         /// <summary>
+        /// Determines if the directory exists.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>
+        /// The <see cref="bool" />.
+        /// </returns>
+        public bool DirectoryExists(string path)
+        {
+            return LongPathDirectory.Exists(path);
+        }
+
+        /// <summary>
         /// Check if the specified file exists.
         /// </summary>
         /// <param name="filePath">The path.</param>
@@ -71,13 +97,30 @@ namespace Jeffijoe.Purge.CLI
         }
 
         /// <summary>
+        /// Sanitizes the path, ensuring it is rooted.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>
+        /// The <see cref="string" />.
+        /// </returns>
+        public string SanitizePath(string path)
+        {
+            if (!Path.IsPathRooted(path))
+            {
+                path = Path.Combine(Directory.GetCurrentDirectory(), path);
+            }
+
+            return path;
+        }
+
+        /// <summary>
         /// Enumerates the files.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns></returns>
         public IEnumerable<string> EnumerateFiles(string path)
         {
-            return LongPathDirectory.EnumerateDirectories(path);
+            return LongPathDirectory.EnumerateFiles(path);
         }
 
         /// <summary>
@@ -87,7 +130,7 @@ namespace Jeffijoe.Purge.CLI
         /// <returns></returns>
         public IEnumerable<string> EnumerateDirectories(string path)
         {
-            return LongPathDirectory.EnumerateFiles(path);
+            return LongPathDirectory.EnumerateDirectories(path);
         }
 
         #endregion

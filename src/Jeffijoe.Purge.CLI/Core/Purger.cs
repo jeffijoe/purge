@@ -9,8 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.Experimental.IO;
-
 namespace Jeffijoe.Purge.CLI
 {
     /// <summary>
@@ -63,11 +61,25 @@ namespace Jeffijoe.Purge.CLI
         /// <summary>
         /// Deletes the path specified recursively using native Windows functions with unicode support.
         /// </summary>
-        /// <param name="path">
-        /// The path.
-        /// </param>
+        /// <param name="path">The path.</param>
         public void Purge(string path)
         {
+            // Sanitize the path.
+            path = this.fileSystem.SanitizePath(path);
+
+            // Check if it's a file.
+            if (this.fileSystem.FileExists(path))
+            {
+                this.fileSystem.DeleteFile(path);
+                return;
+            }
+
+            // If it's not a directory either, we're done.
+            if (this.fileSystem.DirectoryExists(path) == false)
+            {
+                throw new PurgeException(string.Format("The path '{0}' is not a directory or a file.", path));
+            }
+
             var actions = this.EnumeratePurgeables(path);
             foreach (var purgeAction in actions)
             {
@@ -113,14 +125,14 @@ namespace Jeffijoe.Purge.CLI
                 result = new List<Purgeable>();
             }
 
-            var folders = this.fileSystem.EnumerateDirectories(path);
+            var folders = this.fileSystem.EnumerateDirectories(path).ToList();
             foreach (var folder in folders)
             {
                 this.EnumeratePurgeables(folder, result);
             }
 
             result.AddRange(folders.Select(f => new Purgeable(false, f)));
-            var files = this.fileSystem.EnumerateFiles(path);
+            var files = this.fileSystem.EnumerateFiles(path).ToList();
             result.AddRange(files.Select(f => new Purgeable(true, f)));
             if (firstCall)
             {
